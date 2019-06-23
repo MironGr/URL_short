@@ -1,0 +1,31 @@
+.open URL_short_serv.db
+CREATE TABLE URL (
+	URL_Id           INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	URL_full         TEXT NOT NULL,
+	URL_short        TEXT NOT NULL,
+	Users_Id	 INTEGER REFERENCES Users(Users_Id)
+);
+
+CREATE TABLE Users (
+	Users_Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	Login    TEXT NOT NULL,
+	Password TEXT NOT NULL
+);
+
+
+
+
+INSERT INTO URL (URL_full, URL_short, Users_Id)
+VALUES ('stackoverflow.com/questions/tagged/python', 'stackoverflow.com/aaa1', 2);
+
+SELECT URL_short FROM URL WHERE URL_full = 'https://stackoverflow.com/questions/tagged/python';
+
+INSERT INTO URL (URL_full, URL_short, Users_Id)
+VALUES ('https://stackoverflow.com/questions/tagged/python', 'https://stackoverflow.com/aaa2', 3);
+
+
+SELECT URL_short FROM URL WHERE URL_full = 'http://flask.pocoo.org/docs/1.0/quickstart/';
+
+SELECT URL_short FROM URL WHERE URL_short = 'https://stackoverflow.com/aaa2';
+
+SELECT URL_short FROM URL WHERE URL_full = 'https://stackoverflow.com/questions/tagged/python' Users_Id = 2;

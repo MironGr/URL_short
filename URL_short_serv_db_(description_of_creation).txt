@@ -12,7 +12,8 @@ CREATE TABLE Users (
 	Password TEXT NOT NULL
 );
 
-
+INSERT INTO Users (Login, Password)
+VALUES ('Miron', '12345');
 
 
 INSERT INTO URL (URL_full, URL_short, Users_Id)

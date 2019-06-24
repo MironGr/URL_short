@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Авторизация</title>
+</head>
+<form action="logon">
+    <div class="wrapper">
+        <div>
+            <div class="input-group" style="float: left">
+                    <label for="login">Логин</label>
+                    <input type="text" id="login" name="login">
+                </div>
+                <div class="input-group" style="float: right">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" name="password">
+                    <p id="msg"></p>
+                </div>
+            </div>
+            <input class="btn-subm-link" type="submit" onclick="submitURL()" value="Отправить">
+        </div>
+<!--        <script>-->
+<!--            function submitURL() {-->
+<!--                var login = $('#login').val();-->
+<!--                var pass = $('#pass').val();-->
+<!--                $.ajax({-->
+<!--                    async: true,-->
+<!--                    method: 'POST',-->
+<!--                    data: JSON.stringify({ login: login, password: pass }),-->
+<!--                    complete: function (data, status) {-->
+<!--                        if (status === 200) {-->
+<!--                            $('#msg').text(data).css('color', 'green');-->
+<!--                        }-->
+<!--                        else $('#msg').text(data).css('color', 'green');-->
+<!--                    }-->
+<!--                });-->
+<!--            }-->
+<!--        </script>-->
+</form>
+</html>

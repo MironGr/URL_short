@@ -1,41 +1,57 @@
 import json
 import sqlite3 as lite
 from flask import Flask, request, Response, jsonify, views, render_template, url_for, redirect
-# import requests
+import requests
+# import request
 
 import data_base_work as db
 import methods as m
+# import auth_server as auth
+
 
 app = Flask(__name__)
+
 
 #
 # @app.route('/')
 # def index():
 #     return render_template('index.html')
 
+
+
 @app.route('/')
 def index():
     return Response('Hello, World!')
-#
-# @app.route('/post-full-url/<path:full_url_address>')
-# def short_url(full_url_address):
-#     check_req = m.check_requests(full_url_address)
-#
-#
-@app.route('/post-full-url/<username>')
-def user_post(username):
-    return 'User %s' % username
+
+@app.route('/get_users')
+def send_users():
+    query = '''SELECT Login FROM Users;
+            '''
+    res = db.query_db(query)
+    return jsonify(users=res)
+
+@app.route('/short-full-url', methods=['POST'])
+def short_url():
+    # url_exist_db = m.check_short_url_address_in_database(full_url_address)
+    # short_url = m.abbreviation_auto(full_url_address)
+    # data =
+    # with open(data, 'r') as f_:
+    #     r = json.load(f_)
+    return jsonify(full='is your short URL!')
+    # if url_exist_db is False and short_url is True:
+    #     return Response(short_url + ' is your short URL!')
+
 # def short_url(full_url_address):
 #     return Response('Hello, World!22')
 
 
-@app.route('/url-full/<path:url>')
-def short_url(url):
-    query_str = f'''INSERT INTO URL (URL_full, URL_short, Users_Id)
-                        VALUES ('{url}', '5', 6);
-                        '''
-    db.query_save_db(query_str)
-    return 'URL_full %s' % url
+# @app.route('/url-full/<path:url>')
+# def short_url(url):
+#     query_str = f'''INSERT INTO URL (URL_full, URL_short, Users_Id)
+#                         VALUES ('{url}', '5', 6);
+#                         '''
+#     db.query_save_db(query_str)
+#     return 'URL_full %s' % url
 
 # @app.route('/url-short-make/<URLshort>')
 # def URL_short(URLshort):

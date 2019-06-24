@@ -81,7 +81,7 @@ def check_full_url_address_in_database_user(full_url_address, user):
         return False
 
 
-def check_short_url_address_in_database(short_url_address, user):
+def check_short_url_address_in_database_user(short_url_address, user):
     """
     :param short_url_address: str
     :return: True/False
@@ -98,7 +98,7 @@ def check_short_url_address_in_database(short_url_address, user):
         return False
 
 
-def abbreviation_auto(full_url_address, user):
+def abbreviation_auto_user(full_url_address, user):
     """
     reduces to a domain with automatic naming and writes to database
     :param full_url_address: str
@@ -123,7 +123,88 @@ def abbreviation_auto(full_url_address, user):
         return False
 
 
-def abbreviation_input(full_url_address, short_part, user):
+def abbreviation_input_user(full_url_address, short_part, user):
+    """
+    Enter the abbreviation
+    :param full_url_address: str
+    :return: True/False
+    """
+    top_address = cut_full_url(full_url_address)
+    short_url_address = top_address + short_part
+    if check_full_url_address_in_database_user(full_url_address) is False:
+        while check_short_url_address_in_database(short_url_address) is not False:
+            message = print('Enter new address')
+            return message
+        query_str = f'''INSERT INTO URL (URL_full, URL_short, Users_Id)
+                        VALUES ('{full_url_address}', '{short_url_address}', {user});
+                        '''
+        db.query_save_db(query_str)
+        return True
+    else:
+        return False
+
+
+# БЕЗ ЮЗЕРОВ
+
+
+def check_full_url_address_in_database(full_url_address):
+    """
+    :param full_url_address: str
+    :return: True/False
+    """
+    query_str = f'''SELECT URL_full FROM URL
+                    WHERE URL_full = '{full_url_address}';
+                    '''
+    query = db.query_db(query_str)
+    if query:
+        return True
+    else:
+        return False
+
+
+def check_short_url_address_in_database(short_url_address):
+    """
+    :param short_url_address: str
+    :return: True/False
+    """
+    query_str = f'''SELECT URL_short FROM URL
+                    WHERE URL_short = '{short_url_address}';
+                    '''
+    query = db.query_db(query_str)
+    if query:
+        for string in query:
+            for line in string:
+                return line
+    else:
+        return False
+
+
+def abbreviation_auto(full_url_address):
+    """
+    reduces to a domain with automatic naming and writes to database
+    :param full_url_address: str
+    :return: True/False
+    """
+    top_address = cut_full_url(full_url_address)
+    short_part_letter = 'short-ad-'
+    short_part_number = 0
+    short_url_address = top_address + short_part_letter + str(short_part_number)
+    if check_full_url_address_in_database_user(full_url_address) is False:
+        while check_short_url_address_in_database(short_url_address) is not False:
+            short_part_number += 1
+            short_url_address = top_address + short_part_letter + str(short_part_number)
+            check_short_url_address_in_database(short_url_address)
+
+        query_str = f'''INSERT INTO URL (URL_full, URL_short, Users_Id)
+                        VALUES ('{full_url_address}', '{short_url_address}', '2');
+                        '''
+        db.query_save_db(query_str)
+        return True
+    else:
+        return False
+
+
+def abbreviation_input(full_url_address, short_part):
     """
     Enter the abbreviation
     :param full_url_address: str
@@ -136,12 +217,15 @@ def abbreviation_input(full_url_address, short_part, user):
             message = print('Enter new address')
             return message
         query_str = f'''INSERT INTO URL (URL_full, URL_short, Users_Id)
-                        VALUES ('{full_url_address}', '{short_url_address}', {user});
+                        VALUES ('{full_url_address}', '{short_url_address}', '2');
                         '''
         db.query_save_db(query_str)
         return True
     else:
         return False
+
+
+
 
 #
 # tt = abbreviation_input(url, sp)
